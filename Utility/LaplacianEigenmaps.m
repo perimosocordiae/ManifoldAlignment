@@ -3,7 +3,7 @@ function [g1]=  LaplacianEigenmaps(N1, epsilon)
 %N1: n1*k matrix. k nearest neighbours for each example.
     
     %~~~Default Parameters~~~
-    global DimLatentSpace;    %max dimensionality of the new space.
+    m=2000;    %max dimensionality of the new space.
 
     
     %construct weight matrix for each domain
@@ -36,50 +36,30 @@ function [g1]=  LaplacianEigenmaps(N1, epsilon)
    end
    
    W1=sparse((D21))*W1*sparse((D21));
-   
-   L = speye(n1)-W1; 
-  % nEigs = size(L,1); % compute all the eigenvectors, wasteful! 
-   
-%    [g1, ea] = eigs(L, size(L,1),'SM'); % standard Eigs
-   
-%    % Jeff's AMLS code (faster for large matrices)
-%    
-%    %%% Display the comments in AMLS?
-    %comments = true;
 
-    %%% Initialize AMLS
-%    runAMLS = initializeAMLS(L, min(DimLatentSpace,n1), comments);
-    
-    runAMLS = initializeAMLS(L, min(DimLatentSpace,n1));
+   %~~~eigen decomposition~~~
+   [ev, ea]=eig(full(I-W1));
 
-    %%% Run AMLS
-    [g1, ea] = runAMLS();
-   
-   
 
-   %~~~eigen decomposition~~~ Chang's old code
-%    [ev, ea]=eig(full(I-W1));
-% 
-% 
-%     %sorting ea by ascending order
-%     ea=diag(ea);
-%     [x, index]  =sort(ea);
-%     ea =ea(index); ev=ev(:,index);
-%     for i=1:size(ev,2)
-%         ev(:,i)=ev(:,i)/norm(ev(:,i));
-%     end
-% 
-%     %some eigenvalues might be close to 0, and should be filted out
-%     for i=1:size(ea);
-%         if ea(i)>epsilon 
-%             break;
-%         end
-%     end
-%     start=i;
-% 
-%     %~~~compute mappings~~~
-%     if m>size(ev,2)-start+1 DimLatentSpace=size(ev,2)-start+1; end
-%     g1=ev(1:n1,start:m+start-1);
+    %sorting ea by ascending order
+    ea=diag(ea);
+    [x, index]  =sort(ea);
+    ea =ea(index); ev=ev(:,index);
+    for i=1:size(ev,2)
+        ev(:,i)=ev(:,i)/norm(ev(:,i));
+    end
+
+    %some eigenvalues might be close to 0, and should be filted out
+    for i=1:size(ea);
+        if ea(i)>epsilon 
+            break;
+        end
+    end
+    start=i;
+
+    %~~~compute mappings~~~
+    if m>size(ev,2)-start+1 m=size(ev,2)-start+1; end
+    g1=ev(1:n1,start:m+start-1);
 end
 
 
