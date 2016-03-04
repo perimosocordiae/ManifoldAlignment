@@ -1,10 +1,9 @@
 # Manifold Alignment
 
 We have two slightly different versions of alignment approaches.
-The input to represent the weight matrix for each domain can be given in two forms
-1. a sparse matrix. This version is the one that I am currently using.
-2. an array modeling the k-nearest neighbor for each instance. The files are in /knn/* 
-	EU test is based on this version.
+The input to represent the weight matrix for each domain can be given in two forms:
+ 1. a sparse matrix.
+ 2. an array modeling the k-nearest neighbor for each instance. The files for this are in Alignment/knn/.
 
 ## Folder: Alignment
 
@@ -42,20 +41,11 @@ The only difference is how to create the correspondence matrix.
 
 ## Folder: Utility
 
-cmpEmbedding.m - compares different embedding results.
-Examples are represented as columns.
-
-knnsearch.m - k-nearest neighbor search
-
-LaplacianEigenmaps.m
-
-LPP.m - Locality Preserving Projections
-
-Showtopics.m
-
-createAllConnectedGraph.m
-
-createKnnGraph.m
-
-L2_distance.m - All pairs Euclidean distance
-
+ * cmpEmbedding.m - compares different embedding results. Examples are represented as columns.
+ * knnsearch.m - k-nearest neighbor search
+ * LaplacianEigenmaps.m
+ * LPP.m - Locality Preserving Projections
+ * Showtopics.m
+ * createAllConnectedGraph.m
+ * createKnnGraph.m
+ * L2_distance.m - All pairs Euclidean distance
